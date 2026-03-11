@@ -1,7 +1,9 @@
+import { Button } from "./components/ui/button";
+
 const App = () => {
 return(
-  <div className="text-red-500">
-    Hellow World!
+  <div>
+    <Button className="bg-primary-blue">Hello World!</Button>
   </div>
 )
 

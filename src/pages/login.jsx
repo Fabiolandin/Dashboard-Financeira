@@ -43,7 +43,7 @@ const LoginPage = () => {
                             <CardTitle className="items-center">Entre na sua conta</CardTitle>
                             <CardDescription>Insira seus dados abaixo.</CardDescription>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="space-y-4">
                             {/* Input de email */}
                             <FormField
                                 control={methods.control}

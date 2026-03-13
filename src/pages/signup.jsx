@@ -10,7 +10,7 @@ import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const signupSchema = z.object({
     firstName: z.string().trim().min(1, {
@@ -66,13 +66,33 @@ const SignupPage = () => {
             passwordConfirmation: '',
             terms: false,
         }
+    }, [])
+
+    useEffect(() => {
+        const init = async () => {
+            try {
+                const accessToken = localStorage.getItem('accessToken')
+                const refreshToken = localStorage.getItem('refreshToken')
+                if (!accessToken && !refreshToken) return
+                const response = await api.get('/users/me', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    }
+                })
+                setUser(response.data)
+            } catch (error) {
+                localStorage.removeItem('accessToken')
+                console.error(error)
+            }
+        }
+        init()
     })
 
     const handleSubmit = (data) => {
         signupMutation.mutate(data, {
             onSuccess: (createdUser) => {
                 const accessToken = createdUser.tokens.accessToken
-                const refreshToken =  createdUser.tokens.refreshToken
+                const refreshToken = createdUser.tokens.refreshToken
                 setUser(createdUser)
                 localStorage.setItem('acessToken', accessToken)
                 localStorage.setItem('refreshToken', refreshToken)
@@ -84,7 +104,7 @@ const SignupPage = () => {
         })
     }
 
-    if(user){
+    if (user) {
         return <h1>Olá</h1>
     }
 

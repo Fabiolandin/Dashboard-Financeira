@@ -8,6 +8,9 @@ import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { useState } from 'react';
 
 const signupSchema = z.object({
     firstName: z.string().trim().min(1, {
@@ -40,6 +43,19 @@ const signupSchema = z.object({
     })
 
 const SignupPage = () => {
+    const [user, setUser] = useState(null)
+    const signupMutation = useMutation({
+        mutationKey: ['signup'],
+        mutationFn: async (variables) => {
+            const response = await api.post('/users', {
+                first_name: variables.firstName,
+                last_name: variables.lastName,
+                email: variables.email,
+                password: variables.password,
+            })
+            return response.data
+        },
+    })
     const methods = useForm({
         resolver: zodResolver(signupSchema),
         defaultValues: {
@@ -53,7 +69,23 @@ const SignupPage = () => {
     })
 
     const handleSubmit = (data) => {
-        console.log(data)
+        signupMutation.mutate(data, {
+            onSuccess: (createdUser) => {
+                const accessToken = createdUser.tokens.accessToken
+                const refreshToken =  createdUser.tokens.refreshToken
+                setUser(createdUser)
+                localStorage.setItem('acessToken', accessToken)
+                localStorage.setItem('refreshToken', refreshToken)
+                toast.success('Conta criada com sucesso!')
+            },
+            onError: () => {
+                toast.error('Erro, sua conta não foi criada!')
+            }
+        })
+    }
+
+    if(user){
+        return <h1>Olá</h1>
     }
 
     return (

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useAuthContext } from '@/context/auth';
@@ -41,7 +41,7 @@ const signupSchema = z.object({
     })
 
 const SignupPage = () => {
-    const { user, signup } = useAuthContext();
+    const { user, signup, isInitializing } = useAuthContext();
 
     const methods = useForm({
         resolver: zodResolver(signupSchema),
@@ -58,12 +58,11 @@ const SignupPage = () => {
 
 
     const handleSubmit = (data) => signup(data)
-        if (user) {
-            return <h1>Olá, {user.first_name}</h1>
-        }
+
+    if (isInitializing) return null
 
     if (user) {
-        return <h1>Olá</h1>
+        return <Navigate to="/" />
     }
 
     return (

@@ -1,3 +1,4 @@
+import { api } from '@/lib/axios';
 import { useMutation } from '@tanstack/react-query'
 import { createContext, useEffect, useState } from 'react'
 import { toast } from 'sonner';
@@ -8,6 +9,7 @@ export const AuthContext = createContext({
     signup: () => { },
 })
 
+// eslint-disable-next-line react/prop-types
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState();
     const signupMutation = useMutation({

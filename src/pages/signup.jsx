@@ -8,8 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Link } from 'react-router';
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useContext} from 'react';
-import { AuthContext } from '@/context/auth';
+import { useAuthContext } from '@/context/auth';
 
 const signupSchema = z.object({
     firstName: z.string().trim().min(1, {
@@ -42,7 +41,7 @@ const signupSchema = z.object({
     })
 
 const SignupPage = () => {
-    const { user, signup } = useContext(AuthContext)
+    const { user, signup } = useAuthContext();
 
     const methods = useForm({
         resolver: zodResolver(signupSchema),

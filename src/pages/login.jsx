@@ -3,9 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { AuthContext } from '@/context/auth';
+import { useAuthContext } from '@/context/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 import { z } from 'zod'
@@ -24,7 +23,7 @@ const loginSchema = z.object({
 })
 
 const LoginPage = () => {
-    const {user, login} = useContext(AuthContext)
+    const {user, login} = useAuthContext()
     
     const methods = useForm({
         resolver: zodResolver(loginSchema),

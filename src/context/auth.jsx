@@ -1,5 +1,5 @@
 import { LOCAL_STORAGE_ACCESS_TOKEN_KEY, LOCAL_STORAGE_REFRESH_TOKEN_KEY } from '@/constants/local-storage';
-import { protectedApi, publicApi } from '@/lib/axios';
+import { UserService } from '@/services/user';
 import { useMutation } from '@tanstack/react-query'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { toast } from 'sonner';
@@ -32,23 +32,16 @@ export const AuthContextProvider = ({ children }) => {
     const signupMutation = useMutation({
         mutationKey: ['signup'],
         mutationFn: async (variables) => {
-            const response = await publicApi.post('/users', {
-                first_name: variables.firstName,
-                last_name: variables.lastName,
-                email: variables.email,
-                password: variables.password,
-            })
-            return response.data
+            const response = await UserService.signup(variables)
+            return response
         },
     })
 
     const loginMutation = useMutation({
         mutationKey: ['login'],
         mutationFn: async (variables) => {
-            const response = await publicApi.post('/users/login', {
-                password: variables.password,
-            })
-            return response.data
+            const response = await UserService.login(variables)
+            return response
         },
     })
 
@@ -59,8 +52,8 @@ export const AuthContextProvider = ({ children }) => {
                 const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
                 const refreshToken = localStorage.getItem(LOCAL_STORAGE_REFRESH_TOKEN_KEY)
                 if (!accessToken && !refreshToken) return
-                const response = await protectedApi.get('/users/me')
-                setUser(response.data)
+                const response = await UserService.me()
+                setUser(response)
             } catch (error) {
                 setUser(null)
                 console.error(error)

@@ -1,15 +1,25 @@
 import { protectedApi, publicApi } from "@/lib/axios"
 
 export const UserService = {
+    /**
+     * Cria um novo usuario
+     * @param {Object} input 
+     * @param {string} input.firstName
+     * @param {string} input.lastName
+     * @param {string} input.email
+     * @param {string} input.password
+     * @returns {Object}
+     * @returns {string}
+     */
 
-    signup: async(input) => {
+    signup: async (input) => {
         const response = await publicApi.post('/users', {
-                first_name: input.firstName,
-                last_name: input.lastName,
-                email: input.email,
-                password: input.password,
-            })
-            return {
+            first_name: input.firstName,
+            last_name: input.lastName,
+            email: input.email,
+            password: input.password,
+        })
+        return {
             id: response.data.id,
             email: response.data.email,
             firstName: response.data.first_name,
@@ -17,13 +27,22 @@ export const UserService = {
             tokens: response.data.tokens
         }
     },
+
+    /**
+ * Login de usuario
+ * @param {Object} input 
+ * @param {string} input.email
+ * @param {string} input.password
+ * @returns {Object}
+ * @returns {string}
+ */
 
     login: async (input) => {
-         const response = await publicApi.post('/users/login', {
-                email: input.email,
-                password: input.password,
-            })
-            return {
+        const response = await publicApi.post('/users/login', {
+            email: input.email,
+            password: input.password,
+        })
+        return {
             id: response.data.id,
             email: response.data.email,
             firstName: response.data.first_name,
@@ -32,6 +51,10 @@ export const UserService = {
         }
     },
 
+        /**
+     * Retorna usuario autenticado
+     * @returns {Object}
+     */
     me: async () => {
         const response = await protectedApi.get('/users/me')
         return {

@@ -52,10 +52,11 @@ export const DatePickerWithRange = ({
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
-                    mode="single"
+                    mode="range"
                     selected={value}
                     onSelect={onChange}
                     initialFocus
+                    locale={ptBR}
                 />
             </PopoverContent>
         </Popover>

@@ -52,10 +52,13 @@ export const DatePickerWithRange = ({
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
+                initialFocus
                     mode="range"
+                    defaultMonth = {value?.from}
                     selected={value}
                     onSelect={onChange}
                     initialFocus
+                    numberOfMonths={2}
                     locale={ptBR}
                 />
             </PopoverContent>

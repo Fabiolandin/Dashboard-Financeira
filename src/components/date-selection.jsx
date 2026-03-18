@@ -1,14 +1,34 @@
-import { addMonths } from 'date-fns'
-import { useState } from "react";
+import { addMonths, format } from 'date-fns'
+import { useEffect, useState } from "react";
 
 import { DatePickerWithRange } from "./ui/data-picker-with-range";
+import { useNavigate, useSearchParams } from 'react-router';
 
-const DateSelection =() => {
+const formatDataToQueryParam = (date) => format(date, 'yyyy-MM-dd')
+
+const DateSelection = () => {
+    const [searchParams] = useSearchParams()
+    const navigate = useNavigate()
     const [date, setDate] = useState({
-        from: new Date(),
-        to: addMonths(new Date(), 1)
+        from: searchParams.get('from')
+            ? new Date(searchParams.get('from') + 'T000:00:00')
+            : new Date(),
+        to: searchParams.get('to')
+            ? new Date(searchParams.get('to') + 'T00:00:00')
+            : addMonths(new Date(), 1),
     })
-    return <DatePickerWithRange value={date} onChange={setDate}/>
+
+    useEffect(() => {
+        if (!date?.from || !date?.to) return
+        const queryParams = new URLSearchParams()
+        queryParams.set('from', formatDataToQueryParam(date.from))
+        queryParams.set('to', formatDataToQueryParam(date.to))
+        if (date.from && date.to) {
+            navigate(`/?${queryParams.toString()}`)
+        }
+    }, [navigate, date])
+
+    return <DatePickerWithRange value={date} onChange={setDate} />
 
 }
 

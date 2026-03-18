@@ -6,7 +6,7 @@ import { ChevronDownIcon, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const Header = () => {
-    const { user, signOut } = useAuthContext
+    const { user, signOut } = useAuthContext()
     return(
         <Card>
         <CardContent className="px-8 py-4 flex items-center justify-between">

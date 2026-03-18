@@ -1,18 +1,31 @@
+import DateSelection from "@/components/date-selection";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/context/auth";
+import { PlusIcon } from "lucide-react";
 import { Navigate } from "react-router";
 
 const HomePage = () => {
-    const { user, isInitializing, signOut } = useAuthContext()
+    const { user, isInitializing } = useAuthContext()
     if (isInitializing) return null
-    if(!user) {
+    if (!user) {
         return <Navigate to="/login" />
     }
-    return(
+    return (
         <>
-        <Header />
-        <Button onClick={signOut}>Sair</Button>
+            <Header />
+            <div className="p-8">
+                <div className="flex items-center justify-between">
+                    <h2 className="font-bold text-2xl">Dashboard</h2>
+                    <div className="flex items-center gap-2">
+                        <DateSelection />
+                        <Button>
+                            <PlusIcon />
+                            Nova Transação
+                            </Button>
+                    </div>
+                </div>
+            </div>
         </>
     )
 

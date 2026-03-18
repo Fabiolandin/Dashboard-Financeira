@@ -13,7 +13,7 @@ export const UserService = {
      */
 
     signup: async (input) => {
-        const response = await publicApi.post('/users', {
+        const response = await publicApi.post('/api/users', {
             first_name: input.firstName,
             last_name: input.lastName,
             email: input.email,
@@ -38,7 +38,7 @@ export const UserService = {
  */
 
     login: async (input) => {
-        const response = await publicApi.post('/users/login', {
+        const response = await publicApi.post('/api/users/login', {
             email: input.email,
             password: input.password,
         })
@@ -56,7 +56,7 @@ export const UserService = {
      * @returns {Object}
      */
     me: async () => {
-        const response = await protectedApi.get('/users/me')
+        const response = await protectedApi.get('/api/users/me')
         return {
             id: response.data.id,
             email: response.data.email,

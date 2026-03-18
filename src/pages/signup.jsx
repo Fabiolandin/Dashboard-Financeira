@@ -173,7 +173,7 @@ const SignupPage = () => {
 
                         </CardContent>
                         <CardFooter>
-                            <Button className="w-full">Criar conta</Button>
+                            <Button type="submit" className="w-full">Criar conta</Button>
                         </CardFooter>
                     </Card>
                 </form>

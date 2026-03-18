@@ -71,7 +71,8 @@ export const AuthContextProvider = ({ children }) => {
                 setTokens(createdUser.tokens)
                 toast.success('Conta criada com sucesso!')
             },
-            onError: () => {
+            onError: (error) => {
+                console.error('Erro detalhado:', error)
                 toast.error('Erro, sua conta não foi criada!')
             }
         })

@@ -81,7 +81,7 @@ const LoginPage = () => {
                             />
                         </CardContent>
                         <CardFooter>
-                            <Button className="w-full">Fazer Login</Button>
+                            <Button type="submit" className="w-full">Fazer Login</Button>
                         </CardFooter>
                     </Card>
                     <div className='flex items-center justify-center'>

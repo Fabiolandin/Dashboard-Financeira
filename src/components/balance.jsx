@@ -3,11 +3,13 @@ import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router"
 import BalanceItem from "./balance-item"
 import { PiggyBankIcon, TrendingDownIcon, TrendingUpIcon, WalletIcon } from "lucide-react"
+import { useAuthContext } from "@/context/auth"
 
 const Balance = () => {
     const [searchParams] = useSearchParams()
+    const {user} = useAuthContext()
     const {data} = useQuery({
-        queryKey: ["balance"],
+        queryKey: ["balance", user.id],
         queryFn: () => {
             const from = searchParams.get('from');
             const to = searchParams.get('to');

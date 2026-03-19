@@ -1,3 +1,4 @@
+import Balance from "@/components/balance";
 import DateSelection from "@/components/date-selection";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,8 @@ const HomePage = () => {
     return (
         <>
             <Header />
-            <div className="p-8">
+            <div className="p-8 space-y-6">
+                {/* Seletor data e botão de nota transação*/}
                 <div className="flex items-center justify-between">
                     <h2 className="font-bold text-2xl">Dashboard</h2>
                     <div className="flex items-center gap-2">
@@ -22,8 +24,12 @@ const HomePage = () => {
                         <Button>
                             <PlusIcon />
                             Nova Transação
-                            </Button>
+                        </Button>
                     </div>
+                </div>
+                {/* Graficos Etc*/}
+                <div className="grid grid-cols-[2fr, 1fr]">
+                    <Balance />
                 </div>
             </div>
         </>

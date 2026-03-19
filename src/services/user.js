@@ -51,10 +51,10 @@ export const UserService = {
         }
     },
 
-        /**
-     * Retorna usuario autenticado
-     * @returns {Object}
-     */
+    /**
+ * Retorna usuario autenticado
+ * @returns {Object}
+ */
     me: async () => {
         const response = await protectedApi.get('/api/users/me')
         return {
@@ -63,5 +63,18 @@ export const UserService = {
             firstName: response.data.first_name,
             lastName: response.data.last_name,
         }
+    },
+    /**
+* Retorna o balanço do usuário autenticado.
+* @param {Object} input - Usuário a ser criado.
+* @param {string} input.from - Data inicial (YYYY-MM-DD).
+* @param {string} input.to - Data final (YYYY-MM-DD).
+*/
+    getBalance: async (input) => {
+        const queryParams = new URLSearchParams();
+        queryParams.set('from', input.from)
+        queryParams.set('to', input.to)
+        const response = await protectedApi.get(`/api/users/me/balance?${queryParams.toString()}`)
+        return response.data
     }
 }

@@ -1,5 +1,6 @@
 import { Card, CardContent } from "./ui/card"
 
+// eslint-disable-next-line react/prop-types
 const BalanceItem = ({ label, icon, amount }) => {
     return (
         <Card>

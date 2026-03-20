@@ -1,4 +1,4 @@
-import { PiggyBankIcon, PlusIcon, TrendingDown, TrendingUpIcon } from "lucide-react";
+import { PiggyBankIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 import { Button } from "./ui/button";
 
 import {
@@ -9,6 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogClose,
 
 } from '@/components/ui/dialog'
 import { z } from 'zod'
@@ -18,7 +19,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "./ui/input";
 import { NumericFormat } from "react-number-format";
 import { DatePicker } from "./ui/date-picker";
-import { DialogClose } from "@radix-ui/react-dialog";
 
 //VALIDAÇÃO COM ZOD
 const formSchema = z.object({
@@ -114,8 +114,8 @@ const AddTransactionButton = () => {
                             )}
                         />
                         <FormField
-                            control={form.type}
-                            name="date"
+                            control={form.control}
+                            name="type"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Tipo</FormLabel>
@@ -126,13 +126,13 @@ const AddTransactionButton = () => {
                                                 variant={
                                                     field.value == 'EARNING' ? 'secondary' : 'outline'}
                                                 onClick={() => field.onChange('EARNING')}>
-                                                <TrendingUpIcon className="text-primary-gren" />
+                                                <TrendingUpIcon className="text-primary-green" />
                                                 Ganho
                                             </Button>
                                             <Button type="button" variant={
                                                 field.value == 'EXPENSE' ? 'secondary' : 'outline'}
                                                 onClick={() => field.onChange('EXPENSE')}>
-                                                <TrendingDown className="text-primary-red" />
+                                                <TrendingDownIcon className="text-primary-red" />
                                                 Gasto
                                             </Button>
                                             <Button type="button" variant={

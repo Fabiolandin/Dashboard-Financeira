@@ -4,35 +4,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, 
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useAuthContext } from '@/context/auth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useLoginForm } from '@/forms/hooks/user';
+import { Loader2Icon } from 'lucide-react';
 import { Link, Navigate } from 'react-router';
-import { z } from 'zod'
-
-const loginSchema = z.object({
-    email: z.string().email({
-        message: 'O e-mail é inválido.',
-    })
-        .trim().min(1, {
-            message: 'O e-mail é obrigatório.',
-        }),
-
-    password: z.string().trim().min(6, {
-        message: 'A senha deve ter no mínimo 6 caracteres.'
-    })
-})
 
 const LoginPage = () => {
     const {user, login, isInitializing} = useAuthContext()
-    
-    const methods = useForm({
-        resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: '',
-            password: '',
-        }
-    })
 
+    const { form } = useLoginForm()
     const handleSubmit = (data) => login(data);
 
     if (isInitializing) return null
@@ -43,8 +22,8 @@ const LoginPage = () => {
 
     return (
         <div className='flex flex-col h-screen w-screen items-center justify-center gap-3'>
-            <Form {...methods}>
-                <form onSubmit={methods.handleSubmit(handleSubmit)}>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleSubmit)}>
                     <Card className="w-[500px]">
                         <CardHeader>
                             <CardTitle className="items-center">Entre na sua conta</CardTitle>
@@ -53,7 +32,7 @@ const LoginPage = () => {
                         <CardContent className="space-y-4">
                             {/* Input de email */}
                             <FormField
-                                control={methods.control}
+                                control={form.control}
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
@@ -67,7 +46,7 @@ const LoginPage = () => {
                             />
                             {/* Input de senha */}
                             <FormField
-                                control={methods.control}
+                                control={form.control}
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
@@ -81,7 +60,12 @@ const LoginPage = () => {
                             />
                         </CardContent>
                         <CardFooter>
-                            <Button type="submit" className="w-full">Fazer Login</Button>
+                            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                                {form.formState.isSubmitting && (
+                                    <Loader2Icon className='animate-spin' />
+                                )}
+                                Fazer Login
+                                </Button>
                         </CardFooter>
                     </Card>
                     <div className='flex items-center justify-center'>

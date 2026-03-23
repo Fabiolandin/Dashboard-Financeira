@@ -7,9 +7,9 @@ import { useLogin, useSignup } from '@/api/hooks/user';
 export const AuthContext = createContext({
     user: null,
     isInitializing: true,
-    login: () => {},
-    signup: () => {},
-    signOut: () => {},
+    login: () => { },
+    signup: () => { },
+    signOut: () => { },
 })
 
 export const useAuthContext = () => useContext(AuthContext)
@@ -64,17 +64,15 @@ export const AuthContextProvider = ({ children }) => {
             }
         })
     }
-    const login = (data) => {
-        loginMutation.mutate(data, {
-            onSuccess: (loggedUser) => {
-                setUser(loggedUser)
-                setTokens(loggedUser.tokens)
-                toast.success('login realizado com sucesso!')
-            },
-            onError: (error) => {
-                console.error(error)
-            }
-        })
+    const login = async (data) => {
+        try {
+            const loggedUser = await loginMutation.mutate(data)
+            setUser(loggedUser)
+            setTokens(loggedUser.tokens)
+            toast.success('login realizado com sucesso!')
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     const signOut = () => {

@@ -19,7 +19,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "./ui/input";
 import { NumericFormat } from "react-number-format";
 import { DatePicker } from "./ui/date-picker";
-import { TransactionService } from "@/services/transactions";
+import { TransactionService } from "@/api/services/transactions";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

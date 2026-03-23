@@ -19,12 +19,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "./ui/input";
 import { NumericFormat } from "react-number-format";
 import { DatePicker } from "./ui/date-picker";
-import { TransactionService } from "@/api/services/transactions";
 import { toast } from "sonner";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuthContext } from "@/context/auth";
-import { getUserBalanceQueryKey } from "@/api/hooks/user";
+import { useCreateTransaction } from "@/api/hooks/transaction";
 
 //VALIDAÇÃO COM ZOD
 const formSchema = z.object({
@@ -41,18 +38,7 @@ const formSchema = z.object({
 })
 
 const AddTransactionButton = () => {
-    const queryClient = useQueryClient()
-    const {user} = useAuthContext()
-    const { mutateAsync: createTransaction } = useMutation({
-        mutationKey: ['createTransaction'],
-        mutationFn: (input) => TransactionService.create(input),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: getUserBalanceQueryKey({userId: user.id}),
-                exact: false
-            })
-        }
-    })
+    const { mutateAsync: createTransaction } = useCreateTransaction
     const [dialogIsOpen, setDialogIsOpen] = useState(false)
     const form = useForm({
         resolver: zodResolver(formSchema),

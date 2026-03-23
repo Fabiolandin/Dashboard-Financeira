@@ -12,54 +12,32 @@ import {
     DialogClose,
 
 } from '@/components/ui/dialog'
-import { z } from 'zod'
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { NumericFormat } from "react-number-format";
 import { DatePicker } from "./ui/date-picker";
-import { toast } from "sonner";
-import { useState } from "react";
-import { useCreateTransaction } from "@/api/hooks/transaction";
 
-//VALIDAÇÃO COM ZOD
-const formSchema = z.object({
-    name: z.string().trim().min(1, {
-        message: 'O nome é obrigatório',
-    }),
-    amount: z.number({
-        required_error: 'O valor é obrigatório',
-    }),
-    date: z.date({
-        required_error: 'A data é obrigatória'
-    }),
-    type: z.enum(['EARNING', 'EXPENSE', 'INVESTMENT'])
-})
+import { useState } from "react";
+import { useCreateTransactionForm } from "@/forms/hooks/transaction";
+import { toast } from "sonner";
+
+
 
 const AddTransactionButton = () => {
-    const { mutateAsync: createTransaction } = useCreateTransaction
     const [dialogIsOpen, setDialogIsOpen] = useState(false)
-    const form = useForm({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: '',
-            amount: 50,
-            date: new Date(),
-            type: 'EARNING',
-        },
-        shouldUnregister: true
-    })
-
-    const onSubmit = async (data) => {
-        try {
-            await createTransaction(data)
+    const {form, onSubmit} = useCreateTransactionForm({
+        onSuccess: () => {
             setDialogIsOpen(false)
             toast.success('Transação criada com sucesso!')
-        } catch (error) {
-            console.error(error)
+        },
+        onError: () => {
+            toast.error(
+                'Ocorreu um erro ao criar a transação.'
+            )
         }
-    }
+    })
+
     return (<div>
         <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
             <DialogTrigger asChild>

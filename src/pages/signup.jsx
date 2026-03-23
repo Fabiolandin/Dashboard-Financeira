@@ -7,6 +7,7 @@ import { Link, Navigate } from 'react-router';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useAuthContext } from '@/context/auth';
 import { useSignupForm } from '@/forms/hooks/user';
+import { Loader2Icon } from 'lucide-react';
 
 const SignupPage = () => {
     const { user, signup, isInitializing } = useAuthContext();
@@ -129,7 +130,12 @@ const SignupPage = () => {
 
                         </CardContent>
                         <CardFooter>
-                            <Button type="submit" className="w-full">Criar conta</Button>
+                            <Button type="submit" className="w-full"
+                            disabled={form.formState.isSubmitting}>
+                                {form.formState.isSubmitting && (
+                                    <Loader2Icon className='animate-spin' />
+                                )}
+                                Criar conta</Button>
                         </CardFooter>
                     </Card>
                 </form>

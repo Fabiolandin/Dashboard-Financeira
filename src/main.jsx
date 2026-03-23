@@ -3,6 +3,7 @@ import './index.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import HomePage from './pages/home'
 import SignupPage from './pages/signup'
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')).render(
       </BrowserRouter>
       </AuthContextProvider>
       <Toaster />
+      <ReactQueryDevtools initialIsOpen={false}/>
     </QueryClientProvider>
   </StrictMode>,
 )

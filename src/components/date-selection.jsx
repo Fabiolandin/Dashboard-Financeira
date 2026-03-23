@@ -12,7 +12,7 @@ const DateSelection = () => {
     const queryClient = useQueryClient()
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
-    const {user} = useAuthContext()
+    const { user } = useAuthContext()
     const [date, setDate] = useState({
 
         from: searchParams.get('from')
@@ -30,7 +30,10 @@ const DateSelection = () => {
         queryParams.set('to', formatDataToQueryParam(date.to))
         navigate(`/?${queryParams.toString()}`)
         queryClient.invalidateQueries({
-            queryKey: ['balance', user.id]
+            queryKey: ['balance', user.id,
+                formatDataToQueryParam(date.from),
+                formatDataToQueryParam(date.to),
+            ],
         })
     }, [navigate, date, queryClient, user.id])
 

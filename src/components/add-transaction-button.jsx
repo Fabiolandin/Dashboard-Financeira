@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext } from "@/context/auth";
+import { getUserBalanceQueryKey } from "@/api/hooks/user";
 
 //VALIDAÇÃO COM ZOD
 const formSchema = z.object({
@@ -47,7 +48,8 @@ const AddTransactionButton = () => {
         mutationFn: (input) => TransactionService.create(input),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['balance', user.id],
+                queryKey: getUserBalanceQueryKey({userId: user.id}),
+                exact: false
             })
         }
     })

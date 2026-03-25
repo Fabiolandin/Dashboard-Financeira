@@ -11,7 +11,6 @@ import { Loader2Icon } from 'lucide-react';
 
 const SignupPage = () => {
     const { user, signup, isInitializing } = useAuthContext();
-
     const form = useSignupForm()
 
     const handleSubmit = (data) => signup(data)

@@ -27,7 +27,7 @@ const removeTokens = () => {
 
 // eslint-disable-next-line react/prop-types
 export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState(null);
     const [isInitializing, setIsInitializing] = useState(true)
     const signupMutation = useSignup()
     const loginMutation = useLogin()
@@ -64,13 +64,13 @@ export const AuthContextProvider = ({ children }) => {
 }
     const login = async (data) => {
         try {
-            const loggedUser = await loginMutation.mutate(data)
+            const loggedUser = await loginMutation.mutateAsync(data)
             setUser(loggedUser)
             setTokens(loggedUser.tokens)
             toast.success('login realizado com sucesso!')
         } catch (error) {
             console.error(error)
-            toast.error('Erro, sua conta não foi criada!')
+            toast.error('Erro, ao fazer login!')
         }
     }
 

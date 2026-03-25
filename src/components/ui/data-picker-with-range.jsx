@@ -57,7 +57,6 @@ export const DatePickerWithRange = ({
                     defaultMonth = {value?.from}
                     selected={value}
                     onSelect={onChange}
-                    initialFocus
                     numberOfMonths={2}
                     locale={ptBR}
                 />
